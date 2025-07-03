@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛠️ DOWNLOADER GUSXRAT</title>
+    <style>
+        body {
+    /* Basic layout & background */
+    background: #0a0a0a;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden; /* Keep stars from causing scrollbars */
+    padding: 1rem; /* Padding for smaller screens */
+    box-sizing: border-box; /* Include padding in total width/height */
+
+    /* Starry background effect */
+    background-image:
+        radial-gradient(white 1px, transparent 20px),
+        radial-gradient(rgba(255, 255, 255, 0.7) 0.5px, transparent 15px),
+        radial-gradient(rgba(255, 255, 255, 0.5) 0.5px, transparent 10px);
+    background-size: 1000px 1000px, 750px 750px, 500px 500px;
+    animation: stars 80s linear infinite;
+}
+
+/* --- Keyframe Animations --- */
+@keyframes stars {
+    from { background-position: 0 0, 0 0, 0 0; }
+    to { background-position: 1000px 1000px, 750px 750px, 500px 500px; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes rotateGlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* --- Container Styles (Login & Main Content) --- */
+.login-container,
+.container {
+    background: rgba(17, 17, 17, 0.9); /* Semi-transparent for star visibility */
+    border: 1px solid #00ff00;
+    border-radius: 10px;
+    padding: 1.5rem; /* Responsive padding */
+    box-shadow: 0 0 20px #00ff00;
+    text-align: center;
+    max-width: 90%; /* Max width for responsiveness */
+    width: 400px; /* Base width, overridden by max-width on small screens */
+    animation: fadeIn 1s ease-out; /* Fade-in effect */
+    box-sizing: border-box;
+}
+
+.login-container {
+    position: relative;
+    overflow: hidden;
+    z-index: 1; /* Ensure content is above the glow effect */
+}
+
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(transparent, #00ff00, transparent);
+    animation: rotateGlow 4s linear infinite;
+    z-index: -1; /* Place glow behind the container's content */
+    border-radius: 50%; /* Makes the rotating glow circular */
+}
+
+/* --- Typography & Headings --- */
+h2, h3 {
+    color: #00ff00;
+    text-shadow: 0 0 8px #00ff00; /* Neon glow effect */
+    margin-bottom: 1.5rem;
+    margin-top: 0;
+}
+
+/* --- Form Elements (Input, Select, Button) --- */
+input[type="password"],
+input[type="text"],
+select,
+button {
+    width: 100%; /* Full width of parent container */
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: #000;
+    color: #0f0;
+    border: 1px solid #0f0;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: all 0.3s ease; /* Smooth transitions for hover/focus */
+}
+
+/* Focus & Hover effects */
+input:focus,
+select:focus,
+button:hover {
+    border-color: #00ff00;
+    box-shadow: 0 0 10px #00ff00;
+    outline: none; /* Remove default outline */
+}
+
+button {
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #00ff00;
+    color: #000;
+}
+
+button.reset-btn {
+    background-color: #f00; /* Red for reset */
+    color: #000;
+    margin-top: 2rem;
+}
+
+.error-message {
+    color: #ff0000;
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+}
+
+/* --- Main Content Specific Styles --- */
+.container {
+    max-width: 720px; /* Wider max-width for main content */
+    display: none; /* Controlled by JavaScript login logic */
+    text-align: left;
+}
+
+.section {
+    margin-top: 2rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5); /* Slightly darker, semi-transparent background */
+    border: 1px solid #006600; /* Darker green border */
+    border-radius: 8px;
+}
+
+.result {
+    margin-top: 1rem;
+    background: #000;
+    padding: 1rem;
+    border: 1px solid #0f0;
+    border-radius: 5px;
+    white-space: pre-wrap; /* Preserve formatting */
+    word-break: break-all; /* Prevent text overflow */
+    overflow-x: auto; /* Allow horizontal scroll for long content */
+    font-size: 0.9rem;
+}
+
+a.download-link {
+    display: inline-block; /* Allows margin-top and padding to work */
+    margin-top: 1rem;
+    padding: 0.6rem 1rem;
+    background: #00ff00;
+    color: #000;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+a.download-link:hover {
+    background-color: #00cc00;
+    box-shadow: 0 0 10px #00ff00;
+}
+
+video, audio {
+    width: 100%;
+    margin-top: 1rem;
+    border: 1px solid #0f0;
+    border-radius: 5px;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    margin-top: 3rem;
+    font-size: 0.8rem;
+    color: #666;
+    text-shadow: 0 0 2px #00ff00;
+}
+
+/* --- Media Queries for extra responsiveness --- */
+@media (max-width: 600px) {
+    body {
+        padding: 0.5rem; /* Reduce body padding on smaller screens */
+    }
+    .login-container, .container {
+        padding: 1rem; /* Reduce container padding */
+    }
+    h2 {
+        font-size: 1.5rem; /* Adjust heading size */
+    }
+    h3 {
+        font-size: 1.2rem;
+    }
+    input, select, button, .result, a.download-link {
+        font-size: 0.9rem; /* Slightly smaller fonts for elements */
+    }
+}
+
+
+    </style>
+</head>
+<body>
+
+    <div id="loginScreen" class="login-container">
+        <h2>🔐 Login ke GUSXRAT TOOLS</h2>
+        <input type="password" id="passwordInput" placeholder="Masukkan password" onkeydown="if(event.keyCode===13) login()">
+        <button onclick="login()">Login</button>
+        <p id="loginError" class="error-message"></p>
+    </div>
+    
+ <div id="mainContent" class="container">
+        <h2 id="title"></h2>
+
+        <div class="section">
+            <h3>▶️ TikTok Downloader</h3>
+            <input type="text" id="tiktokUrl" placeholder="Tempel URL TikTok di sini">
+            <button onclick="downloadTikTok()">Download TikTok</button>
+            <div id="tiktokResult" class="result"></div>
+        </div>
+
+        <div class="section">
+            <h3>▶️ Spotify Downloader</h3>
+            <input type="text" id="spotifyUrl" placeholder="Tempel URL Spotify di sini">
+            <button onclick="downloadSpotify()">Convert Spotify</button>
+            <div id="spotifyResult" class="result"></div>
+        </div>
+
+        <div class="section">
+            <h3>▶️ YouTube Downloader</h3>
+            <input type="text" id="ytUrl" placeholder="Tempel URL YouTube di sini">
+            <button onclick="ytDownloadMP3()">🎧 MP3</button>
+            <button onclick="ytDownloadMP4()">🎬 MP4</button>
+            <div id="ytResult" class="result"></div>
+        </div>
+
+        <button class="reset-btn" onclick="resetAll()">♻️ Reset Semua</button>
+
+        <footer>
+            🛠️ Created by GUSTZY | GUSXRAT TOOLS 2025
+        </footer>
+    </div>
+
+    <script>
+        // typewriter title
+        const titleText = "🛠️ DOWNLOADER GUSXRAT ";
+        let i = 0;
+        const el = document.getElementById('title');
+        let typewriterInterval; // Declare a variable to hold the interval ID
+
+        function startTypewriter() {
+            el.textContent = ''; // Clear existing text
+            i = 0;
+            // Clear any existing interval before starting a new one
+            if (typewriterInterval) {
+                clearInterval(typewriterInterval);
+            }
+            typewriterInterval = setInterval(() => {
+                el.textContent += titleText[i++];
+                if (i >= titleText.length) {
+                    clearInterval(typewriterInterval);
+                }
+            }, 80);
+        }
+
+        const correctPassword = "Gustzydownloader1"; // Ganti dengan password yang Anda inginkan!
+
+        function login() {
+            const passwordInput = document.getElementById('passwordInput').value;
+            const loginError = document.getElementById('loginError');
+            const loginScreen = document.getElementById('loginScreen');
+            const mainContent = document.getElementById('mainContent');
+
+            if (passwordInput === correctPassword) {
+                loginScreen.style.display = 'none';
+                mainContent.style.display = 'block';
+                startTypewriter(); // Start the typewriter effect after successful login
+            } else {
+                loginError.textContent = '❌ Password salah!';
+            }
+        }
+
+        function resetAll() {
+            ['tiktokUrl', 'spotifyUrl', 'ytUrl'].forEach(id => document.getElementById(id).value = '');
+            ['tiktokResult', 'spotifyResult', 'ytResult'].forEach(id => document.getElementById(id).innerHTML = ''); // Clear all result divs
+        }
+
+        async function downloadTikTok() {
+            const url = encodeURIComponent(document.getElementById('tiktokUrl').value.trim());
+            const resDiv = document.getElementById('tiktokResult');
+            if (!url) return resDiv.innerHTML = '❌ Masukkan URL TikTok';
+            resDiv.innerHTML = '⏳ Memuat TikTok...';
+            try {
+                const res = await fetch(`https://apii.baguss.web.id/downloader/ttdl?apikey=bagus&url=${url}`);
+                const d = await res.json();
+                if (d.success) {
+                    resDiv.innerHTML =
+                        `🎬 ${d.title}\n` +
+                        `👇 Video:\n` +
+                        `<a class="download-link" href="${d.video.nowatermark_hd || d.video.nowatermark}" target="_blank">Download Video</a>\n` +
+                        `👇 Audio:\n` +
+                        `<a class="download-link" href="${d.music}" target="_blank">Download Audio</a>`;
+                } else {
+                    resDiv.innerHTML = `❌ Gagal mendapatkan data: ${d.message || 'Unknown error'}`;
+                }
+            } catch (e) {
+                resDiv.innerHTML = `⚠️ Error fetching TikTok: ${e.message}. Periksa koneksi atau URL.`;
+            }
+        }
+
+        async function downloadSpotify() {
+            const url = encodeURIComponent(document.getElementById('spotifyUrl').value.trim());
+            const resDiv = document.getElementById('spotifyResult');
+
+            if (!url) {
+                return resDiv.innerHTML = '❌ Masukkan URL Spotify';
+            }
+
+            resDiv.innerHTML = '⏳ Memuat Spotify...';
+
+            try {
+                const res = await fetch(`https://api.siputzx.my.id/api/d/spotify?url=${url}`);
+                const d = await res.json();
+
+                if (d.status === true && d.data) {
+                    const { title, artis, durasi, image, download } = d.data;
+
+                    if (download && download !== "https://api.fabdl.comundefined") {
+                        resDiv.innerHTML =
+                            `🎵 **${title}**\n` +
+                            `🎤 Artis: ${artis}\n` +
+                            `⏱️ Durasi: ${durasi} ms\n` +
+                            `<a class="download-link" href="${download}" target="_blank">Download MP3</a>`;
+                    } else {
+                        resDiv.innerHTML = `❌ Gagal mendapatkan link download audio. Mohon coba URL lain atau cek API.`;
+                    }
+                } else {
+                    resDiv.innerHTML = `❌ Gagal mendapatkan data: ${d.message || 'Unknown error'}. Pastikan URL Spotify Anda valid.`;
+                }
+            } catch (e) {
+                resDiv.innerHTML = `⚠️ Error fetching Spotify: ${e.message}. Periksa koneksi atau URL.`;
+            }
+        }
+
+        async function ytDownloadMP3() {
+            const url = encodeURIComponent(document.getElementById('ytUrl').value.trim());
+            const resDiv = document.getElementById('ytResult');
+
+            if (!url) {
+                return resDiv.innerHTML = '❌ Masukkan URL YouTube';
+            }
+
+            resDiv.innerHTML = '⏳ Memuat MP3...';
+
+            try {
+                const res = await fetch(`https://veloria-ui.vercel.app/download/ytmp3?url=${url}`);
+                const d = await res.json();
+
+                if (d.status && d.result) {
+                    resDiv.innerHTML =
+                        `🎵 **Audio (MP3)**\n` +
+                        `<audio controls src="${d.result}"></audio>\n` +
+                        `<a class="download-link" href="${d.result}" target="_blank">Download MP3</a>`;
+                } else {
+                    resDiv.innerHTML = `❌ Gagal download MP3: ${d.message || d.info || 'Unknown error'}. Pastikan URL YouTube valid.`;
+                }
+            } catch (e) {
+                resDiv.innerHTML = `⚠️ Error fetching MP3: ${e.message}. Periksa koneksi atau URL.`;
+            }
+        }
+
+        async function ytDownloadMP4() {
+            const url = encodeURIComponent(document.getElementById('ytUrl').value.trim());
+            const resDiv = document.getElementById('ytResult');
+
+            if (!url) {
+                return resDiv.innerHTML = '❌ Masukkan URL YouTube';
+            }
+
+            resDiv.innerHTML = '⏳ Memuat MP4...';
+
+            try {
+                // Assuming this is the correct endpoint for YouTube MP4 from the Mamix API
+                const res = await fetch(`https://veloria-ui.vercel.app/download/ytmp4?url=${url}`);
+                const d = await res.json();
+
+                if (d.status && d.result) {
+                    resDiv.innerHTML =
+                        `🎬 **Video (MP4)**\n` +
+                        `<video controls src="${d.result}"></video>\n` +
+                        `<a class="download-link" href="${d.result}" target="_blank">Download MP4</a>`;
+                } else {
+                    resDiv.innerHTML = `❌ Gagal download MP4: ${d.message || d.info || 'Unknown error'}. Pastikan URL YouTube valid.`;
+                }
+            } catch (e) {
+                resDiv.innerHTML = `⚠️ Error fetching MP4: ${e.message}. Periksa koneksi atau URL.`;
+            }
+        }
+
+
+
+
+    </script>
+</body>
+</html>
