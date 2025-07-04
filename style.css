@@ -1,0 +1,124 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(145deg, #111111, #1a1a1a);
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 1s ease-in;
+}
+
+.center-box {
+  background: #222;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  width: 90%;
+  max-width: 450px;
+  position: relative;
+}
+
+.logo {
+  width: 100px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  border: 2px solid #00ffff;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 10px;
+  background: #333;
+  color: #fff;
+}
+
+button {
+  padding: 10px 20px;
+  margin: 5px;
+  border: none;
+  background: #00ffff;
+  color: #000;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+button:hover {
+  background: #00bbbb;
+  transform: scale(1.05);
+}
+
+.result {
+  margin-top: 10px;
+  font-size: 14px;
+  background: #111;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.card-button {
+  margin: 20px 0;
+  background: #333;
+  padding: 20px;
+  border-radius: 15px;
+  transition: 0.3s;
+}
+.card-button:hover {
+  background: #444;
+}
+
+.console {
+  margin-top: 15px;
+  text-align: left;
+  background: #111;
+  padding: 10px;
+  font-family: monospace;
+  font-size: 12px;
+  max-height: 120px;
+  overflow-y: auto;
+  border-radius: 10px;
+  color: #0f0;
+  white-space: pre-wrap;
+}
+
+.avatar-wrapper {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+}
+.contact-avatar {
+  width: 40px;
+  border-radius: 50%;
+  border: 2px solid #00ffff;
+  cursor: pointer;
+}
+.tooltip {
+  font-size: 10px;
+  background: #000;
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 5px;
+  position: absolute;
+  top: 45px;
+  right: 0;
+  display: none;
+}
+.avatar-wrapper:hover .tooltip {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
